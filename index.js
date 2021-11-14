@@ -13,16 +13,18 @@ app.use(cors());
 io.on('connect', (socket) => {
 
   socket.on('sendMessage', (message) => {
-    console.log(" ================================================ ")
-    console.log(" A MESSAGE WAS SEND ")
-    console.log(message);
     io.emit('message', message);
   });
 
   socket.on('disconnect', () => {
     console.log(" ================================================ ")
     console.log(" USER IS DISCONNECT ")
-  })
+  });
+
+  socket.on('sendLocation', ({ id, lat, lng }) => {
+    io.emit('location', { id, lat, lng });
+  });
+
 });
 
 server.listen(port, () => console.log(`Server has started on : http://localhost:${port} `));
